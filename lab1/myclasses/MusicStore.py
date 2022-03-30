@@ -149,6 +149,7 @@ class MusicStore:
         parser = etree.XMLParser(dtd_validation=True)
         try:
             etree.parse(path_xml, parser)
+            print("Validation success")
             return True
         except XMLSyntaxError as e:
             print(e)

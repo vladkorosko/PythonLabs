@@ -1,22 +1,8 @@
 from lab1.myclasses.MusicStore import MusicStore
-from entity.Author import Author
-from entity.Album import Album
-
-
-def print_album(album: Album, padding: str) -> None:
-    print(padding + "Album id: " + str(album.album_id) + "; Album name: " + album.name +
-          "; Number of songs: " + str(album.number_of_songs) + "; Album author: " + str(album.author_id))
-
-
-def print_albums(list_of_albums: [Album], padding: str) -> None:
-    print("The albums are: ")
-    for i in list_of_albums:
-        print_album(i, padding)
-    print("\n-----------------------------------------------\n")
-
-
-def print_author(author: Author) -> None:
-    print("Author id: " + str(author.author_id) + "; Author name: " + author.name + "")
+from entity.Author import print_authors
+from entity.Author import print_author
+from entity.Album import print_albums
+from entity.Album import print_album
 
 
 class Manager:
@@ -129,13 +115,11 @@ class Manager:
 
     def __show_albums(self):
         print_albums(self.music_store.get_all_albums(), "")
+        print("\n-----------------------------------------------\n")
 
     def __show_authors(self):
-        print("The authors are: ")
+        print_authors(self.music_store.get_all_authors())
         print("\n-----------------------------------------------\n")
-        for i in self.music_store.get_all_authors():
-            print_author(i)
-            print_albums(i.albums, "\t")
 
     def __clear(self):
         self.music_store.clear()
