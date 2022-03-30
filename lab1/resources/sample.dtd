@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <!ELEMENT music_store (author)*>
+    <!ELEMENT author (album)*>
+    <!ATTLIST author author_id CDATA #REQUIRED name CDATA #REQUIRED>
+    <!ELEMENT album EMPTY>
+    <!ATTLIST album album_id CDATA #REQUIRED name CDATA #REQUIRED number_of_songs CDATA #REQUIRED>

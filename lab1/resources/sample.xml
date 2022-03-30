@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE music_store SYSTEM "sample.dtd">
+<music_store>
+	<author author_id="101010" name="Imagine Dragons">
+		<album album_id="101010" name="Evolve" number_of_songs="15"/>
+	</author>
+	<author author_id="102010" name="Skillet">
+		<album album_id="102010" name="Rise" number_of_songs="13"/>
+		<album album_id="102011" name="Awake" number_of_songs="15"/>
+		<album album_id="102032" name="Comatose" number_of_songs="20"/>
+	</author>
+	<author author_id="102301" name="Bryan Adams">
+		<album album_id="120102" name="Spirit" number_of_songs="16"/>
+	</author>
+</music_store>
