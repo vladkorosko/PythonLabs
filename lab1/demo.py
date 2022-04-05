@@ -1,5 +1,5 @@
-from lab1.myclasses.Manager import Manager
-from lab1.myclasses.MusicStore import MusicStore
+from lab1.classes.Manager import Manager
+from lab1.classes.MusicStore import MusicStore
 
 from entity.Author import print_authors
 from entity.Author import print_author

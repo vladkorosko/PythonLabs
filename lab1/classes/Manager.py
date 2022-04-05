@@ -1,4 +1,4 @@
-from lab1.myclasses.MusicStore import MusicStore
+from lab1.classes.MusicStore import MusicStore
 from entity.Author import print_authors
 from entity.Author import print_author
 from entity.Album import print_albums
