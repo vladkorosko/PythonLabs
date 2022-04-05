@@ -8,13 +8,14 @@ class Author:
         self.name = name
         self.albums = []
 
-    def add_album(self, album: Album):
+    def add_album(self, album: Album) -> None:
         self.albums.append(album)
 
 
 def print_author(author: Author) -> None:
     print("Author id: " + str(author.author_id) + "; Author name: " + author.name + "")
     print_albums(author.albums, '\t')
+
 
 def print_authors(authors: [Author]) -> None:
     print("The authors are: ")
