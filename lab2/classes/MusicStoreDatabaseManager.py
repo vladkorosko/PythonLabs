@@ -53,7 +53,6 @@ class MusicStoreDataBaseManager:
         values = str(album_id) + ", " + str(author_id) + ", '" + name + "', " + str(number_of_songs)
         query = "INSERT INTO ALBUMS (ID_ALBUM, ID_AUTHOR, NAME, NUMBER_OF_SONGS) VALUES (" + values + ")"
 
-        print(query)
         try:
             self.cursor.execute(query)
             self.db.commit()

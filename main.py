@@ -1,8 +1,18 @@
-from lab1.demo import demo
-from lab2.classes.MusicStoreDatabaseManager import MusicStoreDataBaseManager
+from lab1.demo import demo as d1
+from lab2.demo import demo as d2
 
 
 if __name__ == '__main__':
-    m = MusicStoreDataBaseManager()
-    m.find_album_by_condition('author_id', 105010, "name")
-    #demo()
+    lab = 2
+    if lab == 1:
+        d1()
+    elif lab == 2:
+        d2()
+    elif lab == 3:
+        pass
+    elif lab == 4:
+        pass
+    elif lab == 5:
+        pass
+    else:
+        pass
