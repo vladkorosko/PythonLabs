@@ -1,6 +1,39 @@
 import MySQLdb
 
 
+def print_authors(authors: list[str], field: str):
+    print("The authors are: ")
+    if field == "name":
+        for row in authors:
+            print("Author name:", row[0])
+    elif field == "id":
+        for row in authors:
+            print("Author id:", row[0])
+    else:
+        for row in authors:
+            print("Author id:", row[0], "| Author name:", row[1])
+
+
+def print_albums(albums: list[str], field: str):
+    print("The albums are: ")
+    if field == "album_id":
+        for row in albums:
+            print("Album id:", row[0])
+    elif field == "name":
+        for row in albums:
+            print("Album name:", row[0])
+    elif field == "number_of_songs":
+        for row in albums:
+            print("Number of songs:", row[0])
+    elif field == "author_id":
+        for row in albums:
+            print("Author id:", row[0])
+    else:
+        for row in albums:
+            print("Album id:", row[0], "| Album name:", row[1],
+                  "| Number of songs:", row[2], "| Author id:", row[3])
+
+
 class MusicStoreDataBaseManager:
     def __init__(self):
         url = 'localhost'
@@ -11,32 +44,28 @@ class MusicStoreDataBaseManager:
     def __del__(self):
         self.db.close()
 
-    def show_all_authors(self):
+    def show_all_authors(self) -> (list[str], str):
         query = "SELECT ID_AUTHOR, NAME FROM AUTHORS"
         try:
             self.cursor.execute(query)
             results = self.cursor.fetchall()
-            print("The authors are: ")
-            for row in results:
-                print("Author id:", row[0], "| Author name:", row[1])
+            return results, '*'
         except Exception as e:
             print("Error while getting list of authors:", e)
+            raise Exception("Error while getting list of authors:" + str(e))
 
-    def show_all_albums(self):
+    def show_all_albums(self) -> (list[str], str):
         query = "SELECT ID_ALBUM, NAME, NUMBER_OF_SONGS, ID_AUTHOR FROM ALBUMS"
         try:
             self.cursor.execute(query)
             results = self.cursor.fetchall()
-            print("The albums are: ")
-            for row in results:
-                print("Album id:", row[0], "| Album name:", row[1],
-                      "| Number of songs:", row[2], "| Author id:", row[3])
+            return results, '*'
         except Exception as e:
             print("Error while getting list of albums:", e)
+            raise Exception("Error while getting list of albums:" + str(e))
 
-    def add_new_author(self, author_id: int, name: str):
+    def add_new_author(self, author_id: int, name: str) -> bool:
         values = str(author_id) + ", '" + name + "'"
-
         query = "INSERT INTO AUTHORS (ID_AUTHOR, NAME) VALUES(" + values + ")"
 
         try:
@@ -49,7 +78,7 @@ class MusicStoreDataBaseManager:
             self.db.rollback()
             return False
 
-    def add_new_album(self, album_id: int, name: str, number_of_songs: int, author_id: int):
+    def add_new_album(self, album_id: int, name: str, number_of_songs: int, author_id: int) -> bool:
         values = str(album_id) + ", " + str(author_id) + ", '" + name + "', " + str(number_of_songs)
         query = "INSERT INTO ALBUMS (ID_ALBUM, ID_AUTHOR, NAME, NUMBER_OF_SONGS) VALUES (" + values + ")"
 
@@ -63,7 +92,7 @@ class MusicStoreDataBaseManager:
             self.db.rollback()
             return False
 
-    def change_author(self, author_id: int, name: str):
+    def change_author(self, author_id: int, name: str) -> bool:
         query = "UPDATE AUTHORS SET NAME = '" + name + "' WHERE ID_AUTHOR = " + str(author_id)
         try:
             self.cursor.execute(query)
@@ -75,7 +104,7 @@ class MusicStoreDataBaseManager:
             self.db.rollback()
             return False
 
-    def change_album(self, album_id: int, name: str, number_of_songs: int, author_id: int):
+    def change_album(self, album_id: int, name: str, number_of_songs: int, author_id: int) -> bool:
         query = "UPDATE ALBUMS SET NAME = '" + name + "', NUMBER_OF_SONGS = " + str(number_of_songs) + \
                 ", ID_AUTHOR = " + str(author_id) + " WHERE ID_ALBUM = " + str(album_id)
         try:
@@ -88,7 +117,7 @@ class MusicStoreDataBaseManager:
             self.db.rollback()
             return False
 
-    def delete_author_by_id(self, author_id: int):
+    def delete_author_by_id(self, author_id: int) -> bool:
         query = "DELETE FROM AUTHORS WHERE ID_AUTHOR = " + str(author_id)
 
         try:
@@ -101,7 +130,7 @@ class MusicStoreDataBaseManager:
             self.db.rollback()
             return False
 
-    def delete_album_by_id(self, album_id: int):
+    def delete_album_by_id(self, album_id: int) -> bool:
         query = "DELETE FROM Albums WHERE ID_Album = " + str(album_id)
 
         try:
@@ -114,7 +143,7 @@ class MusicStoreDataBaseManager:
             self.db.rollback()
             return False
 
-    def find_author_by_condition(self, field_name, field_value, field_output):
+    def find_author_by_condition(self, field_name, field_value, field_output) -> (list[str], str):
         adding = False
         if field_name == "id":
             finding_by = "ID_AUTHOR"
@@ -143,20 +172,12 @@ class MusicStoreDataBaseManager:
         try:
             self.cursor.execute(query)
             results = self.cursor.fetchall()
-            print("The authors are: ")
-            if field_output == "name":
-                for row in results:
-                    print("Author name:", row[0])
-            elif field_output == "id":
-                for row in results:
-                    print("Author id:", row[0])
-            else:
-                for row in results:
-                    print("Author id:", row[0], "| Author name:", row[1])
+            return results, field_output
         except Exception as e:
             print("Error while getting list of authors:", e)
+            raise Exception("Error while getting list of authors:" + str(e))
 
-    def find_album_by_condition(self, field_name, field_value, field_output):
+    def find_album_by_condition(self, field_name, field_value, field_output) -> (list[str], str):
         adding = False
         if field_name == "album_id":
             finding_by = "ID_ALBUM"
@@ -193,22 +214,7 @@ class MusicStoreDataBaseManager:
         try:
             self.cursor.execute(query)
             results = self.cursor.fetchall()
-            print("The albums are: ")
-            if field_output == "album_id":
-                for row in results:
-                    print("Album id:", row[0])
-            elif field_output == "name":
-                for row in results:
-                    print("Album name:", row[0])
-            elif field_output == "number_of_songs":
-                for row in results:
-                    print("Number of songs:", row[0])
-            elif field_output == "author_id":
-                for row in results:
-                    print("Author id:", row[0])
-            else:
-                for row in results:
-                    print("Album id:", row[0], "| Album name:", row[1],
-                          "| Number of songs:", row[2], "| Author id:", row[3])
+            return results, field_output
         except Exception as e:
             print("Error while getting list of albums:", e)
+            raise Exception("Error while getting list of albums:" + str(e))
