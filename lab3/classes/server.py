@@ -16,23 +16,23 @@ def process(data: str) -> str:
     split = data.split("#")
     if split[0] == "add_new_author":
         if manager.add_new_author(int(split[1]), split[2]):
-            return "Successfully added author"
+            return "Successfully added author " + split[2]
         else:
             return "Error while adding author"
     if split[0] == "add_new_album":
         if manager.add_new_album(int(split[1]), split[2], int(split[3]), int(split[4])):
-            return "Successfully added album"
+            return "Successfully added album " + split[2]
         else:
             return "Error while adding album"
 
     if split[0] == "delete_author_by_id":
         if manager.delete_author_by_id(int(split[1])):
-            return "Successfully deleted"
+            return "Successfully deleted author with id " + split[1]
         else:
             return "Error while deleting author"
     if split[0] == "delete_album_by_id":
         if manager.delete_album_by_id(int(split[1])):
-            return "Successfully deleted"
+            return "Successfully deleted album with id " + split[1]
         else:
             return "Error while deleting album"
 
@@ -44,10 +44,10 @@ def process(data: str) -> str:
 
     if split[0] == "count_albums_author_by_id":
         try:
-            albums, _ = manager.find_author_by_condition("id", split[1], "name")
+            albums, _ = manager.find_album_by_condition("author_id", split[1], "name")
             return "Author with id " + split[1] + " has " + str(len(albums)) + " albums"
-        except Exception as e:
-            return "Error while getting author's albums: " + str(e)
+        except Exception as exception:
+            return "Error while getting author's albums: " + str(exception)
 
     if split[0] == "get_all_authors":
         authors, field = manager.get_all_authors()
@@ -56,7 +56,7 @@ def process(data: str) -> str:
         albums, field = manager.get_all_albums()
         return print_albums(albums, field)
     if split[0] == "get_all_albums_of_author_by_id":
-        albums, field = manager.find_author_by_condition("id", split[1], "name")
+        albums, field = manager.find_album_by_condition("author_id", split[1], "*")
         return print_albums(albums, field)
 
 
@@ -65,10 +65,16 @@ while True:
     request = connection.recv(BUFFER_SIZE)
     request_str: str = request.decode(ENCODING)
     print("request = " + request_str)
-    response_str = process(request_str)
-    print("response = " + response_str)
-    print()
-    response = response_str.encode(ENCODING)
-    connection.send(response)
-    connection.close()
-    print("\n----------------------------------------------------------\n")
+    try:
+        response_str = process(request_str)
+        print("response = " + response_str)
+        print()
+        response = response_str.encode(ENCODING)
+        connection.send(response)
+        connection.close()
+        print("\n----------------------------------------------------------\n")
+    except Exception as e:
+        print(e)
+        connection.send(str(e).encode(ENCODING))
+        connection.close()
+        print("\n----------------------------------------------------------\n")
