@@ -1,37 +1,39 @@
 import MySQLdb
 
 
-def print_authors(authors: list[str], field: str):
-    print("The authors are: ")
+def print_authors(authors: list[str], field: str) -> str:
+    result = "The authors are:\n"
     if field == "name":
         for row in authors:
-            print("Author name:", row[0])
+            result += "Author name: " + row[0] + "\n"
     elif field == "id":
         for row in authors:
-            print("Author id:", row[0])
+            result += "Author id: " + str(row[0]) + "\n"
     else:
         for row in authors:
-            print("Author id:", row[0], "| Author name:", row[1])
+            result += "Author id: " + str(row[0]) + " | Author name: " + row[1] + "\n"
+    return result
 
 
-def print_albums(albums: list[str], field: str):
-    print("The albums are: ")
+def print_albums(albums: list[str], field: str) -> str:
+    result = "The albums are:\n"
     if field == "album_id":
         for row in albums:
-            print("Album id:", row[0])
+            result += "Album id: " + str(row[0]) + "\n"
     elif field == "name":
         for row in albums:
-            print("Album name:", row[0])
+            result += "Album name: " + row[0] + "\n"
     elif field == "number_of_songs":
         for row in albums:
-            print("Number of songs:", row[0])
+            result += "Number of songs: " + str(row[0]) + "\n"
     elif field == "author_id":
         for row in albums:
-            print("Author id:", row[0])
+            result += "Author id: " + str(row[0]) + "\n"
     else:
         for row in albums:
-            print("Album id:", row[0], "| Album name:", row[1],
-                  "| Number of songs:", row[2], "| Author id:", row[3])
+            result += "Album id: " + str(row[0]) + " | Album name: " + row[1] \
+                      + " | Number of songs: " + str(row[2]) + " | Author id: " + str(row[3]) + "\n"
+    return result
 
 
 class MusicStoreDataBaseManager:
@@ -44,7 +46,7 @@ class MusicStoreDataBaseManager:
     def __del__(self):
         self.db.close()
 
-    def show_all_authors(self) -> (list[str], str):
+    def get_all_authors(self) -> (list[str], str):
         query = "SELECT ID_AUTHOR, NAME FROM AUTHORS"
         try:
             self.cursor.execute(query)
@@ -54,7 +56,7 @@ class MusicStoreDataBaseManager:
             print("Error while getting list of authors:", e)
             raise Exception("Error while getting list of authors:" + str(e))
 
-    def show_all_albums(self) -> (list[str], str):
+    def get_all_albums(self) -> (list[str], str):
         query = "SELECT ID_ALBUM, NAME, NUMBER_OF_SONGS, ID_AUTHOR FROM ALBUMS"
         try:
             self.cursor.execute(query)
@@ -200,7 +202,7 @@ class MusicStoreDataBaseManager:
         elif field_output == "author_id":
             select_field = "ID_AUTHOR"
         elif field_output == "*":
-            select_field = "*"
+            select_field = "ID_ALBUM, NAME, NUMBER_OF_SONGS, ID_AUTHOR"
         else:
             raise Exception("Wrong name of field")
 
