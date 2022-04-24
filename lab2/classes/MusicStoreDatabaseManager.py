@@ -1,7 +1,7 @@
 import MySQLdb
 
 
-def print_authors(authors: list[str], field: str) -> str:
+def parse_authors(authors: list[str], field: str) -> str:
     result = "The authors are:\n"
     if field == "name":
         for row in authors:
@@ -15,7 +15,7 @@ def print_authors(authors: list[str], field: str) -> str:
     return result
 
 
-def print_albums(albums: list[str], field: str) -> str:
+def parse_albums(albums: list[str], field: str) -> str:
     result = "The albums are:\n"
     if field == "album_id":
         for row in albums:

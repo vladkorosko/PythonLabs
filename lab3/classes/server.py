@@ -1,8 +1,8 @@
 import socket as socket_util
 
 from lab2.classes.MusicStoreDatabaseManager import MusicStoreDataBaseManager
-from lab2.classes.MusicStoreDatabaseManager import print_albums
-from lab2.classes.MusicStoreDatabaseManager import print_authors
+from lab2.classes.MusicStoreDatabaseManager import parse_albums
+from lab2.classes.MusicStoreDatabaseManager import parse_authors
 from lab3.config import *
 
 
@@ -51,13 +51,13 @@ def process(data: str) -> str:
 
     if split[0] == "get_all_authors":
         authors, field = manager.get_all_authors()
-        return print_authors(authors, field)
+        return parse_authors(authors, field)
     if split[0] == "get_all_albums":
         albums, field = manager.get_all_albums()
-        return print_albums(albums, field)
+        return parse_albums(albums, field)
     if split[0] == "get_all_albums_of_author_by_id":
         albums, field = manager.find_album_by_condition("author_id", split[1], "*")
-        return print_albums(albums, field)
+        return parse_albums(albums, field)
 
 
 while True:
